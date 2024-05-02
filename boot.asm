@@ -1,20 +1,23 @@
 org 0x7c00
-
 start:
-	mov ah, 0x0e
-	mov al, 'A'
+	mov ah, 0x0e ; Scrolling teletype BIOS routine
 
-	.loop:
-	cmp al, 'Z' + 1
-	je .endLoop
+	mov si, myString
 
+	.printStr:
+	cmp byte [si], 0 ; Keep going until we find a null byte
+	je .endPrintStr
+
+	mov al, byte [si]
 	int 0x10
-	inc al
 
-	jmp .loop
-	.endLoop:
+	inc si
+	jmp .printStr
+	.endPrintStr:
 
 jmp $
 
-times 510-($-$$) db 0
-dw 0xaa55
+myString db 'Hello, World!', 0
+
+times 510-($-$$) db 0 ; Pad boot sector with zeroes to 510 bytes
+dw 0xaa55 ; Use magic number to signify that this is a boot loader to the BIOS
