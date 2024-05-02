@@ -1,22 +1,20 @@
 [org 0x7c00] ; BIOS loads boot sector to 0x7c00, so we need to tell the assembler that
 
-mov si, myString
+mov si, hello_msg
+call print_string
 
-mov ah, 0x0e ; Scrolling teletype BIOS routine
-printStr:
-cmp byte [si], 0 ; Keep going until we find a null byte
-je endPrintStr
-
-mov al, byte [si]
-int 0x10
-
-inc si
-jmp printStr
-endPrintStr:
+mov si, goodbye_msg
+call print_string
 
 jmp $
 
-myString: db 'Hello, World!', 0
+%include "print_string.asm"
+
+hello_msg:
+	db 'Hello, World!', 0
+
+goodbye_msg:
+	db 'Goodbye!', 0
 
 times 510-($-$$) db 0	; Pad boot sector with zeroes to 510 bytes
 dw 0xaa55				; Use magic number to signify that this is a boot loader to the BIOS
