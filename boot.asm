@@ -3,6 +3,9 @@
 mov si, hello_msg
 call print_string
 
+call print_nl
+call print_nl
+
 mov si, goodbye_msg
 call print_string
 
