@@ -1,12 +1,13 @@
 [org 0x7c00] ; BIOS loads boot sector to 0x7c00, so we need to tell the assembler that
 
-mov si, hello_msg
+mov di, hello_msg
 call print_string
 
 call print_nl
 call print_nl
+call print_nl
 
-mov si, goodbye_msg
+mov di, goodbye_msg
 call print_string
 
 jmp $
