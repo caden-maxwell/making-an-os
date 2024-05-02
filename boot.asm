@@ -1,3 +1,8 @@
+;mov ax, 0x0E41	; Equivalent to the following two lines
+mov ah, 0x0E
+mov al, 'A'
+int 0x10
+
 jmp $
 
 times 510-($-$$) db 0

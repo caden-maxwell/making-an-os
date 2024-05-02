@@ -21,6 +21,7 @@ Welcome to my humble attempt at creating an operating system! This project is dr
 ## Resources
 
 - [University of Birmingham - Writing a Simple Operating System](https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf)
-- [Making an OS (x86)](https://www.youtube.com/playlist?list=PLm3B56ql_akNcvH8vvJRYOc7TbYhRs19M)
+- [x86 Assembly](https://www.youtube.com/playlist?list=PL0fxbw07Gos3AogW69p1n1gIDHaOazxL9)
 - [OSDev.org](https://wiki.osdev.org/Expanded_Main_Page)
 - [Netwide Assembler (NASM) Docs](https://www.nasm.us/docs.php)
+- [Making an OS (x86)](https://www.youtube.com/playlist?list=PLm3B56ql_akNcvH8vvJRYOc7TbYhRs19M)
