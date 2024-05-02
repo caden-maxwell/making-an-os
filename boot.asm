@@ -4,13 +4,13 @@ mov di, hello_msg
 call print_string
 
 call print_nl
-call print_nl
-call print_nl
 
 mov di, goodbye_msg
 call print_string
 
-jmp $
+loop:
+
+jmp loop
 
 %include "print_string.asm"
 

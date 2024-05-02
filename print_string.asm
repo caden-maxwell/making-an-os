@@ -2,16 +2,16 @@ print_string:
     push ax
 
 	mov	ah,	0x0e ; Scrolling teletype BIOS routine
-	printStr:
+	.loop:
 		cmp	byte [di], 0 ; Keep going until we find a null byte
-		je endPrintStr
+		je .endloop
 
 		mov al, byte [di]
 		int 0x10
 
 		inc di
-		jmp printStr
-	endPrintStr:
+		jmp .loop
+	.endloop:
 
     pop ax
     ret
