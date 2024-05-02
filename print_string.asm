@@ -15,3 +15,10 @@ print_string:
 
     pop ax
     ret
+
+print_nl:
+    mov ax, 0x0e0a
+    int 0x10
+    mov ax, 0x0e0d
+    int 0x10
+    ret
