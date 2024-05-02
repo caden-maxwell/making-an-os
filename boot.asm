@@ -8,9 +8,7 @@ call print_nl
 mov di, goodbye_msg
 call print_string
 
-loop:
-
-jmp loop
+jmp $
 
 %include "print_string.asm"
 
