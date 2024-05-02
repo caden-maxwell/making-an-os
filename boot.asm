@@ -1,9 +1,8 @@
 org 0x7c00
 start:
-	mov ah, 0x0e ; Scrolling teletype BIOS routine
-
 	mov si, myString
 
+	mov ah, 0x0e ; Scrolling teletype BIOS routine
 	.printStr:
 	cmp byte [si], 0 ; Keep going until we find a null byte
 	je .endPrintStr
