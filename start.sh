@@ -4,4 +4,4 @@
 nasm -f bin boot.asm -o boot.bin
 
 # Starts the emulator
-qemu-system-x86_64 boot.bin
+qemu-system-x86_64 -drive format=raw,file=boot.bin
