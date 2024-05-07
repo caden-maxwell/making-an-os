@@ -1,5 +1,7 @@
 # GDT - The Global Descriptor Table
 
+Defines memory segments and their protected-mode attributes.
+
 ## Segment Descriptors
 
 An 8-byte structure that defines a protected-mode segment. It
@@ -13,6 +15,19 @@ has the following properties:
 *Note that the base address and segment limit are actually fragmented
 
 [Wikipedia Article](https://en.wikipedia.org/wiki/Segment_descriptor)
+
+### The Null Descriptor
+
+An invalid segment descriptor that the CPU requires as the first entry to the GDT.
+
+This descriptor makes it so we can catch mistakes if we forget to set a segment register;
+addressing using the null descriptor causes the CPU to raise an exception.
+
+The null descriptor looks like:
+```bin
+00 00 00 00
+00 00 00 00
+```
 
 ## Basic Flat Model
 
@@ -32,7 +47,7 @@ two overlapping segments of addressable memory for *code* and *data*
     - Readable: `1` - Allows us to read constants defined in the code, 0 if execute-only. 
     - Accessed: `0` - Often used for debugging and virtual memory techniques, since the CPU sets the bit when it accesses the segment
 - Other flags: (`1100` or `0xc`)
-    - Granularity: `1` - Multiplies our limit by 4K (i.e. $16\cdot 16\cdot 16$), so our `0xfffff` would become `0xfffff000` (i.e. shift 3 hex digits to the left), allowing our segment to span 4Gb of memory
+    - Granularity: `1` - Multiplies our limit by 4096 (i.e. $16\cdot 16\cdot 16$), so our `0xfffff` would become `0xfffff000`, allowing our segment to span 4GB of memory
     - 32-bit default: `1` - Our segment will hold 32-bit code, otherwise we’d use 0 for 16-bit code. This actually sets the default data unit size for operations (e.g. `push 0x4` would expand to a 32-bit number, etc.)
     - 64-bit code segment: `0` - Unused on 32-bit processor
     - AVL: `0` - We can set this for our own uses (e.g. debugging) but we will not use it
@@ -57,4 +72,10 @@ So, the segment descriptor for the *data* segment looks like, with the `a` swapp
 00 cf 92 00
 00 00 ff ff
 ```
+
+## The GDT Descriptor
+
+The CPU needs to know how long our GDT is, so instead of just giving it the address of the GDT, we give it a GDT descriptor, which is composed of
+- the size of the GDT (16 bits), and
+- the address of the GDT (32 bits).
 
