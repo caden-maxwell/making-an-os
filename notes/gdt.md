@@ -12,7 +12,7 @@ has the following properties:
 
 *Note that the base address and segment limit are actually fragmented
 
-(Wikipedia Article)[https://en.wikipedia.org/wiki/Segment_descriptor]
+[Wikipedia Article](https://en.wikipedia.org/wiki/Segment_descriptor)
 
 ## Basic Flat Model
 
