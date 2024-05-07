@@ -1,9 +1,9 @@
 [org 0x7c00] ; BIOS loads boot sector to 0x7c00, so we need to tell the assembler that
 
-; Save the boot drive
+; Save the boot drive to use later
 mov [BOOT_DRIVE], dl
 
-; Set stack pointer far away
+; Set up the stack far away
 mov bp, 0x8000
 mov sp, bp
 
@@ -26,10 +26,12 @@ jmp $
 %include "print_hex.asm"
 %include "disk_load.asm"
 
+; Global vars
 BOOT_DRIVE db 0
 
 times 510-($-$$) db 0	; Pad boot sector with zeroes to 510 bytes
 dw 0xaa55				; Use magic number to signify that this is a boot loader to the BIOS
 
+; Add dummy sectors after the boot sector
 times 256 dw 0x1337
 times 256 dw 0xdead
