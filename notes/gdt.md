@@ -48,7 +48,7 @@ two overlapping segments of addressable memory for *code* and *data*
     - Accessed: `0` - Often used for debugging and virtual memory techniques, since the CPU sets the bit when it accesses the segment
 - Other flags: (`1100` or `0xc`)
     - Granularity: `1` - Multiplies our limit by 4096 (i.e. $16\cdot 16\cdot 16$), so our `0xfffff` would become `0xfffff000`, allowing our segment to span 4GB of memory
-    - 32-bit default: `1` - Our segment will hold 32-bit code, otherwise we’d use 0 for 16-bit code. This actually sets the default data unit size for operations (e.g. `push 0x4` would expand to a 32-bit number, etc.)
+    - Default Operation Size: `1` - Our segment will hold 32-bit code, otherwise we’d use 0 for 16-bit code. This actually sets the default data unit size for operations (e.g. `push 0x4` would expand to a 32-bit number, etc.)
     - 64-bit code segment: `0` - Unused on 32-bit processor
     - AVL: `0` - We can set this for our own uses (e.g. debugging) but we will not use it
 

@@ -1,3 +1,5 @@
+[bits 16]
+
 ; Prints DX as hex with a newline
 print_hex:
 	push bx
