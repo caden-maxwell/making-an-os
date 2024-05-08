@@ -29,12 +29,13 @@ boot/boot.bin: boot/boot.asm
 	nasm -f bin -o $@ $< 
 
 clean:
-	rm *.bin *.o boot/*.bin kernel/*.bin kernel/*.o kernel/*.dis 
+	rm *.bin boot/*.bin kernel/*.bin kernel/*.o kernel/*.dis 
 
 dis: kernel/kernel.dis
 
 kernel/kernel.dis: kernel/kernel.bin
 	ndisasm -b 32 $< > $@
+	head -n 20 $@
 
 
 # objcopy -O binary -j .text kernel/kernel.o kernel/kernel.bin
