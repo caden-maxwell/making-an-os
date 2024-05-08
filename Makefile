@@ -29,16 +29,12 @@ boot/boot.bin: boot/boot.asm
 	nasm -f bin -o $@ $< 
 
 clean:
-	rm *.bin *.o *.dis boot/*.bin
+	rm *.bin *.o boot/*.bin kernel/*.bin kernel/*.o kernel/*.dis 
 
-kernel.dis: kernel.bin
+dis: kernel/kernel.dis
+
+kernel/kernel.dis: kernel/kernel.bin
 	ndisasm -b 32 $< > $@
 
 
 # objcopy -O binary -j .text kernel/kernel.o kernel/kernel.bin
-
-# gcc -ffreestanding -O0 -c basic.c -o basic.o # Compile basic C function
-# objdump -d basic.o # Show original assembly
-# ld -o basic.bin -Ttext 0x0 basic.o --oformat binary
-# ndisasm -b 32 basic.bin > basic.dis # Disassemble binary into basic assembly
-# head -n 100 basic.dis # Show assembly from disassembled binary
