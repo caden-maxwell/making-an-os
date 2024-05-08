@@ -21,6 +21,14 @@ mov dx, [0x9000 + 1024]
 call print_hex ; 0xdada
 jmp switch_to_pm
 
+[bits 32]
+
+begin_pm:
+	mov ebx, LOADED_PM
+	call print_string_pm
+
+	ret
+
 %include "boot/print.asm"
 %include "boot/print_pm.asm"
 %include "boot/disk_load.asm"
@@ -28,7 +36,8 @@ jmp switch_to_pm
 %include "boot/pm.asm"
 
 ; Global vars
-BOOT_DRIVE db 0
+BOOT_DRIVE: db 0
+LOADED_PM: db "Finished loading into 32-bit protected mode", 0
 
 times 510-($-$$) db 0	; Pad boot sector with zeroes to 510 bytes
 dw 0xaa55				; Use magic number to signify that this is a boot loader to the BIOS
