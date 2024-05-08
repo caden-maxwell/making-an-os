@@ -1,3 +1,5 @@
+[bits 16]
+
 ; For the following GDT code, see https://wiki.osdev.org/GDT_Tutorial
 ; also see: /notes/gdt.md
 gdt_start:
