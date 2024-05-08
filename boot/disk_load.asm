@@ -1,7 +1,6 @@
 [bits 16]
 
 ; load DH sectors to ES:BX from drive DL
-mov dl, [BOOT_DRIVE]
 disk_load:
     push dx ; Store DX on stack so later we can recall
             ; how many sectors were requested to be read
@@ -40,4 +39,4 @@ disk_error_2:
     jmp $
 
 DISK_ERROR_MSG db "Disk read error: ", 0
-DISK_ERROR_MSG_2 db "Disk read error.", 0
+DISK_ERROR_MSG_2 db "Disk read error!", 0
