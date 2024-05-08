@@ -21,33 +21,11 @@ mov dx, [0x9000 + 1024]
 call print_hex ; 0xdada
 jmp switch_to_pm
 
-switch_to_pm:
-cli
-
-lgdt [gdt_descriptor]
-
-mov eax, cr0	; To make the switch to protected mode, we set
-or eax, 0x0001	; the first bit of CR0, a CPU control register
-mov cr0, eax
-
-jmp CODE_SEG:init_pm
-
-[bits 32]
-; Beginning of code in 32-bit protected mode
-init_pm:
-
-	mov ebx, LOADED_PM
-	call print_string_pm
-
-	jmp $
-
-LOADED_PM:
-	db "Loaded into 32-bit protected mode", 0
-
 %include "boot/print.asm"
 %include "boot/print_pm.asm"
 %include "boot/disk_load.asm"
 %include "boot/gdt.asm"
+%include "boot/pm.asm"
 
 ; Global vars
 BOOT_DRIVE db 0
