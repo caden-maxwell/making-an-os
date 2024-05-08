@@ -7,12 +7,4 @@ void main()
     // At the address pointed to by video_memory , store the character ’X’
     // (i.e. display ’X’ in the top - left of the screen ).
     *video_memory = 'X';
-    video_memory += 1;
-    *video_memory = 0x0f;
-    video_memory += 1;
-
-    *video_memory = 'X';
-    video_memory += 1;
-    *video_memory = 0x0a;
-    video_memory += 1;
 }
