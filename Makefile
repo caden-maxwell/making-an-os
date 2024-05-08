@@ -2,40 +2,47 @@
 # $< - the first dependency
 # $@ - the target file
 
+# Automatically expand to a list of existing files that
+# match the patterns
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h)
+
+# Create a list of object files to build by replacing
+# the `.c` extension with `.o` for files in C_SOURCES.
+OBJ = ${C_SOURCES:.c=.o}
+
 # default for `make`
-all: os-image.bin
+all: os-image
 
 # Runs qemu with hard disk
 run: all
-	qemu-system-x86_64 -drive format=raw,file=os-image.bin
+	qemu-system-x86_64 -drive format=raw,file=os-image
 
 # Runs qemu with floppy disk
 runf: all
-	qemu-system-x86_64 -drive file=os-image.bin,if=floppy,index=0,media=disk,format=raw
+	qemu-system-x86_64 -drive file=os-image,if=floppy,index=0,media=disk,format=raw
 
-os-image.bin: boot/boot.bin kernel/kernel.bin
-	cat $^ > os-image.bin
+os-image: boot/boot.bin kernel.bin
+	cat $^ > os-image
 
-kernel/kernel.bin: kernel/enter_kernel.o kernel/kernel.o
+kernel.bin: kernel/enter_kernel.o ${OBJ}
 	ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
-kernel.o: kernel.c
+%.o: %.c ${HEADERS}
 	gcc -ffreestanding -c $< -o $@
 
-kernel/enter_kernel.o: kernel/enter_kernel.asm
+%.o: %.asm
 	nasm -f elf64 -s -o $@ $<
 
-boot/boot.bin: boot/boot.asm
+%.bin: %.asm
 	nasm -f bin -o $@ $< 
 
-clean:
-	rm *.bin boot/*.bin kernel/*.bin kernel/*.o kernel/*.dis 
-
-dis: kernel/kernel.dis
-
-kernel/kernel.dis: kernel/kernel.bin
+kernel.dis: kernel.bin
 	ndisasm -b 32 $< > $@
 	head -n 20 $@
 
+clean:
+	rm -f *.bin *.dis *.o os-image
+	rm -f boot/*.bin kernel/*.o drivers/*.o
 
 # objcopy -O binary -j .text kernel/kernel.o kernel/kernel.bin
