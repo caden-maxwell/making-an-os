@@ -8,7 +8,7 @@ mov bp, 0x8000
 mov sp, bp
 
 mov bx, 0x9000 ; Read from hard disk to 0x0000(ES):0x9000(BX)
-mov dh, 4 ; Number of sectors to read (just reads dummy sectors for now)
+mov dh, 3 ; Number of sectors to read (just reads dummy sectors for now)
 mov dl, [BOOT_DRIVE]
 call disk_load
 
@@ -19,7 +19,9 @@ mov dx, [0x9000 + 512]
 call print_hex ; 0xdead
 mov dx, [0x9000 + 1024]
 call print_hex ; 0xdada
+jmp switch_to_pm
 
+switch_to_pm:
 cli
 
 lgdt [gdt_descriptor]
@@ -34,18 +36,16 @@ jmp CODE_SEG:init_pm
 ; Beginning of code in 32-bit protected mode
 init_pm:
 
-	mov ebx, MSG
+	mov ebx, LOADED_PM
 	call print_string_pm
 
 	jmp $
 
-MSG:
+LOADED_PM:
 	db "Loaded into 32-bit protected mode", 0
 
-%include "boot/print/print_string.asm"
-%include "boot/print/print_string_pm.asm"
-%include "boot/print/print_nl.asm"
-%include "boot/print/print_hex.asm"
+%include "boot/print.asm"
+%include "boot/print_pm.asm"
 %include "boot/disk_load.asm"
 %include "boot/gdt.asm"
 
