@@ -1,3 +1,7 @@
+int some_function() {
+    return 90;
+}
+
 void main()
 {
     char *video_memory = (char *)0xb8000;
@@ -10,4 +14,5 @@ void main()
         *video_memory = 0x40;
         video_memory++;
     }
+    some_function();
 }
