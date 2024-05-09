@@ -19,26 +19,25 @@ jmp switch_to_pm
 jmp $
 
 [bits 16]
-
-; load kernel
+; load kernel from disk
 load_kernel:
-	mov bx, MSG_KERNEL
+	mov bx, MSG_KERNEL_LOAD
 	call print_string
 	call print_nl
 
-	mov bx, KERNEL_OFFSET ; Read from hard disk to 0x0000(ES):KERNEL_OFFSET(BX)
-	mov dh, 15 ; Number of sectors to read (just reads dummy sectors for now)
+	mov bx, KERNEL_OFFSET ; Read from disk to 0x0000(ES):KERNEL_OFFSET(BX)
+	mov dh, 15 ; Number of sectors to read
 	mov dl, [BOOT_DRIVE]
 	call disk_load
 
-	; Sanity check for correctly loading kernel
-	mov dx, [KERNEL_OFFSET]
-	call print_hex
+	mov bx, MSG_KERNEL_SUCC
+	call print_string
+	call print_nl
 
 	ret
 
 [bits 32]
-
+;  First code to run in 32-bit protected mode. Calls kernel's entry point
 begin_pm:
 	mov ebx, MSG_PM
 	call print_string_pm
@@ -55,9 +54,10 @@ begin_pm:
 
 ; Global vars
 BOOT_DRIVE: db 0
-MSG_RM: db "Started in 16-bit real mode.", 0
-MSG_PM: db "Successfully loaded into 32-bit protected mode.", 0
-MSG_KERNEL: db "Loading Kernel from disk to memory...", 0
+MSG_RM: db "Started boot sector in 16-bit real mode.", 0
+MSG_PM: db "Successfully booted into 32-bit protected mode.", 0
+MSG_KERNEL_LOAD: db "Loading kernel from disk...", 0
+MSG_KERNEL_SUCC: db "Successfully loaded kernel from disk.", 0
 
 times 510-($-$$) db 0	; Pad boot sector with zeroes to 510 bytes
 dw 0xaa55				; Use magic number to signify that this is a boot loader to the BIOS
