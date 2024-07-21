@@ -42,7 +42,6 @@ os-image: boot/boot.bin kernel.bin
 
 kernel.bin: kernel/enter_kernel.o ${OBJS}
 	ld -o $@ -Ttext 0x1000 $^ --oformat binary
-# truncate -s 8192 $@
 
 %.o: %.c ${HEADERS}
 	gcc -ffreestanding -c -o $@ $< 
@@ -63,4 +62,5 @@ clean:
 	rm -f *.bin *.dis *.o os-image
 	rm -f boot/*.bin kernel/*.o drivers/*.o
 
-# objcopy -O binary -j .text kernel/kernel.o kernel/kernel.bin
+.PHONY: rerun
+rerun: clean run
