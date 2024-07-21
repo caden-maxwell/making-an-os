@@ -16,7 +16,7 @@ disk_load:
 
     pop dx
     cmp dh, al ; if AL (# sectors read) != DH (# sectors expected), error out
-    jne disk_error_2
+    jne disk_error
 
     ret
 
@@ -33,10 +33,4 @@ disk_error:
 
     jmp $
 
-disk_error_2:
-    mov bx, DISK_ERROR_MSG_2
-    call print_string
-    jmp $
-
 DISK_ERROR_MSG db "Disk read error: ", 0
-DISK_ERROR_MSG_2 db "Disk read error!", 0
